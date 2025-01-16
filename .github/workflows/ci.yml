@@ -1,0 +1,31 @@
+name: CI Pipeline
+
+# Trigger on push or pull requests to the main branch
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest  # Use an Ubuntu environment for the runner
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Build and run Docker Compose
+      - name: Build and Run Docker Compose
+        run: docker-compose up --build --detach
+
+      # Step 4: Run tests
+      - name: Run Tests
+        run: docker-compose exec app ./gradlew test
