@@ -28,14 +28,12 @@ public class ReadOnlyRepository implements IReadOnlyRepository {
     @Override
     public <T extends BaseEntity, ID> Optional<T> findById(Class<T> entityClass, ID id) {
         T entity = entityManager.find(entityClass, id);
-        if (entity != null) {
-            entityManager.detach(entity);
-            // Only return non-deleted entities
-            if (!entity.isDeleted()) {
-                return Optional.of(entity);
-            }
-        }
-        return Optional.empty();
+        
+        if(entity == null || entity.isDeleted()) return Optional.empty();
+        
+        entityManager.detach(entity);
+        
+        return Optional.of(entity);
     }
 
     @Override

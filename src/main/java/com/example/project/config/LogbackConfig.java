@@ -26,7 +26,7 @@ public class LogbackConfig
     @Value("${spring.application.name}")
     private String appName;
 
-    @Value("${spring.profiles.active}")
+    @Value("${app.profiles.active}")
     private String activeProfile;
 
     @PostConstruct

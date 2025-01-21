@@ -2,11 +2,9 @@ package com.example.project.seeder;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import com.github.javafaker.Faker;
-import java.util.stream.IntStream;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import com.example.project.entity.User;
+import com.example.project.fakers.UserFaker;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,17 +43,10 @@ public class DatabaseSeeder
     private void seedUsers() {
         if (readOnlyRepository.count(User.class) > 0) return;
         
-        Faker faker = new Faker();
-        List<User> users = IntStream.range(0, 5).mapToObj(i -> 
-        {
-            User user = User
-	            		.builder()
-	            		.email(faker.internet().emailAddress())
-	            		.build();
-            return user;
-        }).collect(Collectors.toList());
+        List<User> users = UserFaker.getFakeUsers(5);
 
         writeOnlyRepository.saveAll(users);
+        
         log.info("Seeded {TotalUsers} into the database.", users.size());
     }
 }

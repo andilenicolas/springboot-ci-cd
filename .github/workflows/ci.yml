@@ -43,3 +43,13 @@ jobs:
         with:
           name: test-results
           path: target/surefire-reports/ # Path to Maven test results
+
+      # Step 7: Copy Maven Files to Host
+      - name: Copy Maven Files to Host
+        run: |
+          docker cp app:/app/pom.xml ./pom.xml
+          docker cp app:/app/.mvn ./.mvn
+
+      # Step 8: Submit Dependency Graph
+      - name: Update Dependency Graph
+        uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6

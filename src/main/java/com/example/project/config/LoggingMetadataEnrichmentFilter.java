@@ -1,5 +1,6 @@
 package com.example.project.config;
 
+import java.util.HashMap;
 import java.util.Map;
 import ch.qos.logback.core.filter.Filter;
 import ch.qos.logback.core.spi.FilterReply;
@@ -19,10 +20,9 @@ public class LoggingMetadataEnrichmentFilter extends Filter<ILoggingEvent> {
             return FilterReply.NEUTRAL;
         }
 
-        Map<String, Object> metadata = Map.of(
-            "env", environment,
-            "thread", Thread.currentThread().getName()
-        );
+        Map<String, Object> metadata = new HashMap<>(); 
+        metadata.put("env", environment);
+        metadata.put("thread", Thread.currentThread().getName());
 
         metadata.forEach((key, value) -> {
             if (value != null) {
