@@ -37,7 +37,7 @@ class ProjectApplicationTests {
 		
 		System.out.println("count : " + count);
 		// A simple functional test
-		String expected = "Hello, World!";
+		String expected = "Hello, World! 252677";
 		String actual = "Hello, World!";
 		assertEquals(expected, actual, "Strings should match");
 	 }
