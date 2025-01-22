@@ -29,16 +29,18 @@ jobs:
           sudo apt-get install -y docker-compose
 
       # Step 4: Build and run Docker Compose
-      - name: Build and Run Docker Compose
+      - name: Run Docker Compose (Build and Test)
         run: docker-compose up --build --detach
 
       # Step 5: Copy Test Files / Reports
       - name: Copy Test Files / Reports to Host
+        if: always()
         run: |
           docker cp app:/app/target/surefire-reports ./target/surefire-reports
 
       # Step 6: Copy Maven Files to Host
       - name: Copy Maven Files to Host
+        if: always()
         run: |
           docker cp app:/app/pom.xml ./pom.xml
           docker cp app:/app/.mvn ./.mvn
@@ -53,4 +55,5 @@ jobs:
 
       # Step 8: Submit Dependency Graph
       - name: Update Dependency Graph
+        if: always()
         uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
