@@ -32,23 +32,24 @@ jobs:
       - name: Build and Run Docker Compose
         run: docker-compose up --build --detach
 
-      # Step 5: Run tests
-      # - name: Run Tests
-      #   run: docker-compose exec app mvn test
+      # Step 5: Copy Test Files / Reports
+      - name: Copy Test Files / Reports to Host
+        run: |
+          docker cp app:/app/target/surefire-reports ./target/surefire-reports
 
-      # Step 6: Upload Test Results (Always upload artifacts), Ensure artifacts are uploaded even if tests fail
+      # Step 6: Copy Maven Files to Host
+      - name: Copy Maven Files to Host
+        run: |
+          docker cp app:/app/pom.xml ./pom.xml
+          docker cp app:/app/.mvn ./.mvn
+
+      # Step 7: Upload Test Results (Always upload artifacts), Ensure artifacts are uploaded even if tests fail
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
           path: target/surefire-reports/ # Path to Maven test results
-
-      # Step 7: Copy Maven Files to Host
-      - name: Copy Maven Files to Host
-        run: |
-          docker cp app:/app/pom.xml ./pom.xml
-          docker cp app:/app/.mvn ./.mvn
 
       # Step 8: Submit Dependency Graph
       - name: Update Dependency Graph
