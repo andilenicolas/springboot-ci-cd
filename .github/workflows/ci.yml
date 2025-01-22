@@ -24,7 +24,7 @@ jobs:
 
       # Install Maven
       - name: Install Maven
-        uses: sudo apt-get update && apt-get install -y maven
+        run: sudo apt-get update && apt-get install -y maven
 
       # Step 3: Install Docker Compose
       - name: Install Docker Compose
