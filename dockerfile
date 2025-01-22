@@ -30,6 +30,9 @@ COPY --from=build /app/target/*.jar app.jar
 COPY src/main/resources/application.properties /app/application.properties
 COPY src/main/resources/application-docker.properties /app/application-docker.properties
 
+# Copy test reports from build stage
+COPY --from=build /app/target/surefire-reports/ /app/target/surefire-reports/
+
 # Expose the application port
 EXPOSE 8080
 
