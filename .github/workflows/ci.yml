@@ -37,7 +37,12 @@ jobs:
         if: always()
         run: |
           mkdir -p ./target/surefire-reports
-          docker cp app:/app/target/surefire-reports ./target/surefire-reports/
+          docker ps
+          docker container ls
+          # Get the actual container ID/name for the app service
+          CONTAINER_ID=$(docker-compose ps -q app)
+          echo "Container ID: $CONTAINER_ID"
+          docker cp $CONTAINER_ID:/app/target/surefire-reports ./target/surefire-reports/
 
       # Step 6: Copy Maven Files to Host
       - name: Copy Maven Files to Host
