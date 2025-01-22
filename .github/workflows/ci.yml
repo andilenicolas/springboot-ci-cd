@@ -36,7 +36,8 @@ jobs:
       - name: Copy Test Files / Reports to Host
         if: always()
         run: |
-          docker cp app:/app/target/surefire-reports ./target/surefire-reports
+          mkdir -p ./target/surefire-reports
+          docker cp app:/app/target/surefire-reports ./target/surefire-reports/
 
       # Step 6: Copy Maven Files to Host
       - name: Copy Maven Files to Host
